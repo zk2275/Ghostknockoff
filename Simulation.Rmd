@@ -84,5 +84,24 @@ cor.study<-GhostKnockoff.GetCorStudy(Zscore_0,fit.prelim)
 # Then the overall study correlation can be computed by averaging cor.study of all blocks.
 
 
+# compute optimal weights and study dependency using overall study correlaton
+
+```{r}
+n.study<-c(5000,7500)
+Meta.prelim<-GhostKnockoff.prelim.Meta(cor.study, n.study)
+gamma<-Meta.prelim$gamma
+weight.study<-Meta.prelim$w_opt
+```
+
+
+
+# knockoff scores for each block, this can be run in parallel too
+
+```{r}
+GK.stat<-GhostKnockoff.fit(Zscore_0,n.study,fit.prelim,gamma=gamma,weight.study=weight.study)
+# knockoff filter
+GK.filter<-GhostKnockoff.filter(GK.stat$T_0,GK.stat$T_k)
+GK.filter$q
+```
 
  
